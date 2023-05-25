@@ -10,7 +10,7 @@ with lib;
   location = (if config.time.timeZone == "America/Toronto" then {
     latitude = 43.70011;
     longitude = -79.4163;
-  } else if config.time.timeZone == "Europe/Copenhagen" then {
+  } else if config.time.timeZone == "Europe/Paris" then {
     latitude = 55.88;
     longitude = 12.5;
   } else {});
