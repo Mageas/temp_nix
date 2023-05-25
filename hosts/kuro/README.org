@@ -1,0 +1,83 @@
+#+TITLE: Kuro
+#+DATE:  September 13, 2020
+
+* Installation
+** Set up root file system
+#+BEGIN_SRC sh
+lsblk -f
+read -p "Select your disk (eg. /dev/sda): " s_disk
+echo ""
+read -p "Are you sure is it your disk, all the data will be erased ($s_disk)? [y/N] " disk_confirmation
+if [ "$disk_confirmation" != "Y" ] && [ "$disk_confirmation" != "y" ]; then
+    echo "Exiting script.."
+    exit 1
+fi
+
+if [ "${s_disk::8}" == "/dev/nvm" ]; then
+    p_disk="${s_disk}p"
+else
+    p_disk="${s_disk}"
+fi
+
+parted ${s_disk} -- mklabel gpt
+parted ${s_disk} -- mkpart ESP fat32 1MiB 512MiB
+parted ${s_disk} -- mkpart primary 512MiB 100%
+parted ${s_disk} -- set 1 boot on
+mkfs.fat -F32 -n boot ${p_disk}1
+mkfs.ext4 -L nixos ${p_disk}2
+#+END_SRC
+
+
+#+BEGIN_SRC sh
+sudo mount /dev/disk/by-label/nixos /mnt
+sudo mkdir -p /mnt/boot
+sudo mount /dev/disk/by-label/boot /mnt/boot
+#+END_SRC
+
+
+#+BEGIN_SRC sh
+nix-shell -p git nixFlakes
+
+# Set HOST to the desired hostname of this system
+HOST=...
+# Set USER to your desired username (defaults to hlissner)
+USER=...
+
+git clone https://github.com/hlissner/dotfiles /etc/dotfiles
+cd /etc/dotfiles
+
+# Create a host config in `hosts/` and add it to the repo:
+mkdir -p hosts/$HOST
+nixos-generate-config --root /mnt --dir /etc/dotfiles/hosts/$HOST
+rm -f hosts/$HOST/configuration.nix
+cp hosts/kuro/default.nix hosts/$HOST/default.nix
+vim hosts/$HOST/default.nix  # configure this for your system; don't use it verbatim!
+git add hosts/$HOST
+
+# Install nixOS
+USER=$USER nixos-install --root /mnt --impure --flake .#$HOST
+
+# If you get 'unrecognized option: --impure', replace '--impure' with 
+# `--option pure-eval no`.
+
+# Then move the dotfiles to the mounted drive!
+mv /etc/dotfiles /mnt/etc/dotfiles
+#+END_SRC
+
+
+
+** Mount drives
+#+BEGIN_SRC sh
+mount /dev/nvme0n1p2 /mnt
+
+mkdir -p /mnt/{home,boot,usr/store}
+mount /dev/nvme0n1p1 /mnt/boot
+mount /dev/nvme0n1p3 /mnt/home
+# mount -t zfs {usr,/mnt/usr}/backup
+# mount -t zfs {usr,/mnt/usr}/media
+# mount -t zfs {usr,/mnt/usr}/share
+# mount -t zfs {usr,/mnt/usr}/local
+mount /dev/sda1 /usr/vm/windows
+mount /dev/sdb1 /usr/vm/macos
+mount /dev/sdc2 /usr/store
+#+END_SRC
