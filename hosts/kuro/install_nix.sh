@@ -13,7 +13,6 @@ sudo mkdir -p hosts/$HOST ;
     sudo nixos-generate-config --root /mnt --dir /etc/dotfiles/hosts/$HOST ;
     sudo rm -f hosts/$HOST/configuration.nix ;
     sudo cp hosts/kuro/default.nix hosts/$HOST/default.nix ;
-    sudo vim hosts/$HOST/default.nix ;  # configure this for your system; don't use it verbatim!
     sudo git add hosts/$HOST
 
 # Install nixOS
