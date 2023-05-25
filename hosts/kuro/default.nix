@@ -11,14 +11,11 @@
       bspwm.enable = true;
       apps = {
         rofi.enable = true;
-        # godot.enable = true;
-      };
+     };
       browsers = {
         default = "brave";
         brave.enable = true;
-        firefox.enable = true;
-        qutebrowser.enable = true;
-      };
+     };
      term = {
         default = "xst";
         st.enable = true;
