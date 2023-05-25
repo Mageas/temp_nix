@@ -5,7 +5,7 @@ HOST=nixos
 # Set USER to your desired username (defaults to hlissner)
 USER=nix
 
-sudo git clone https://github.com/mageas/temp_nix /etc/dotfiles ;
+sudo git clone https://github.com/mageas/temp_nix --branch clean /etc/dotfiles ;
     cd /etc/dotfiles
 
 # Create a host config in `hosts/` and add it to the repo:
