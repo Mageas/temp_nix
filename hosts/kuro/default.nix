@@ -25,7 +25,6 @@
       default = "nvim";
       vim.enable = true;
     };
-  #  theme.active = "alucard";
   };
 
 
