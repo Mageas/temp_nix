@@ -17,9 +17,8 @@
         brave.enable = true;
      };
      term = {
-        default = "xst";
-        st.enable = true;
-      };
+        default = "xterm";
+     };
    };
    editors = {
       default = "nvim";
