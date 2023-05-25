@@ -5,15 +5,15 @@ HOST=nixos
 # Set USER to your desired username (defaults to hlissner)
 USER=nix
 
-sudo git clone https://github.com/mageas/temp_nix /etc/dotfiles \
+sudo git clone https://github.com/mageas/temp_nix /etc/dotfiles ;
     cd /etc/dotfiles
 
 # Create a host config in `hosts/` and add it to the repo:
-sudo mkdir -p hosts/$HOST \
-    sudo nixos-generate-config --root /mnt --dir /etc/dotfiles/hosts/$HOST \
-    sudo rm -f hosts/$HOST/configuration.nix \
-    sudo cp hosts/kuro/default.nix hosts/$HOST/default.nix \
-    sudo vim hosts/$HOST/default.nix \  # configure this for your system; don't use it verbatim!
+sudo mkdir -p hosts/$HOST ;
+    sudo nixos-generate-config --root /mnt --dir /etc/dotfiles/hosts/$HOST ;
+    sudo rm -f hosts/$HOST/configuration.nix ;
+    sudo cp hosts/kuro/default.nix hosts/$HOST/default.nix ;
+    sudo vim hosts/$HOST/default.nix ;  # configure this for your system; don't use it verbatim!
     sudo git add hosts/$HOST
 
 # Install nixOS
