@@ -8,7 +8,7 @@
   
   services.xserver = {
   	enable = true;
-    services.xserver.layout = "us";
+    layout = "us";
   	displayManager.gdm.enable = true;
   	desktopManager.gnome.enable = true;
   };  
