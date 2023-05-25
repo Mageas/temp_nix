@@ -42,11 +42,6 @@
       device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
-    "/home" = {
-      device = "/dev/disk/by-label/home";
-      fsType = "ext4";
-      options = [ "noatime" ];
-    };
-  };
+ };
   swapDevices = [];
 }
