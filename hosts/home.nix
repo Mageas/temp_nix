@@ -11,7 +11,7 @@ with lib;
     latitude = 43.70011;
     longitude = -79.4163;
   } else if config.time.timeZone == "Europe/Paris" then {
-    latitude = 55.88;
-    longitude = 12.5;
+    latitude = 48.8667;
+    longitude = 2.3333;
   } else {});
 }
